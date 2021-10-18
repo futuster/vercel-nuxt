@@ -1,0 +1,16 @@
+[
+  {
+    "name": "product-slug",
+    "path": "/product/:slug?",
+    "component": "/Users/futuster/p/lozovsky/vercel-nuxt/pages/product/_slug.vue",
+    "chunkName": "pages/product/_slug",
+    "_name": "_5af65615"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/futuster/p/lozovsky/vercel-nuxt/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_205f7106"
+  }
+]

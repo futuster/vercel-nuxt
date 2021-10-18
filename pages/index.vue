@@ -4,12 +4,12 @@
       <h2 class="text-xl">Nuxt with GraphCMS</h2>
       <div class="flex justify-center -mx-4 my-4">
         <router-link
-          v-for="product in products"
-          :to="{ name: 'product-slug', params: { slug: product.slug } }"
-          :key="product.slug"
+          v-for="post in posts"
+          :to="{ name: 'product-slug', params: { slug: post.slug } }"
+          :key="post.slug"
         >
           <article class="border rounded-md p-6 mx-2">
-            <h1 class="fopnt-bold text-xl">{{ product.name }}</h1>
+            <h1 class="fopnt-bold text-xl">{{ post.title }}</h1>
           </article>
         </router-link>
       </div>
@@ -22,18 +22,20 @@ import { gql } from 'graphql-request';
 
 export default {
   async asyncData({ $graphcms }) {
-    const { products } = await $graphcms.request(
+    const { posts } = await $graphcms.request(
       gql`
         {
-          products {
-            name
+          posts {
+            createdAt
+            title
+            tags
             slug
           }
         }
       `
     );
 
-    return { products };
+    return { posts };
   },
 };
 </script>

@@ -1,16 +1,8 @@
 <template>
-  <div class="container mx-auto" v-if="product">
+  <div class="container mx-auto" v-if="post">
     <div>
-      <h1 class="font-bold text-xl">{{ product.name }}</h1>
-      <p class="text-lg">{{ product.description }}</p>
-      <p>
-        {{
-          new Intl.NumberFormat('de-DE', {
-            style: 'currency',
-            currency: 'EUR',
-          }).format(product.price / 100)
-        }}
-      </p>
+      <h1 class="font-bold text-xl">{{ post.title }}</h1>
+      <div v-html="post.content.html"></div>
     </div>
   </div>
 </template>
@@ -22,13 +14,24 @@ export default {
   async asyncData({ $graphcms, params }) {
     const { slug } = params;
 
-    const { product } = await $graphcms.request(
+    const { post } = await $graphcms.request(
       gql`
         query GetProduct($slug: String) {
-          product(where: { slug: $slug }) {
-            name
-            description
-            price
+          post(where: { slug: $slug }) {
+            title
+            slug
+            date
+            tags
+            author{
+              name
+              title
+              picture{
+                url
+              }
+            }
+            content {
+              html
+            }
           }
         }
       `,
@@ -37,16 +40,16 @@ export default {
       }
     );
 
-    return { product };
+    return { post };
   },
   head() {
     return {
-      title: this.product.name,
+      title: this.post.title,
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: this.product.description,
+          content: this.post.content,
         },
       ],
     };
